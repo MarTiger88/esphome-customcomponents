@@ -8,6 +8,7 @@ from esphome.const import (
     CONF_PIN_B,
     CONF_PIN_C,
     CONF_PIN_D,
+    CONF_ENABLE_PIN,
     CONF_SLEEP_WHEN_DONE,
     CONF_STEP_MODE,
 )
@@ -30,6 +31,7 @@ CONFIG_SCHEMA = stepper.STEPPER_SCHEMA.extend(
         cv.Required(CONF_PIN_B): pins.gpio_output_pin_schema,
         cv.Required(CONF_PIN_C): pins.gpio_output_pin_schema,
         cv.Required(CONF_PIN_D): pins.gpio_output_pin_schema,
+        cv.Required(CONF_ENABLE_PIN): pins.gpio_output_pin_schema,
         cv.Optional(CONF_SLEEP_WHEN_DONE, default=False): cv.boolean,
         cv.Optional(CONF_STEP_MODE, default="FULL_STEP"): cv.enum(
             STEP_MODES, upper=True, space="_"
@@ -51,6 +53,8 @@ async def to_code(config):
     cg.add(var.set_pin_c(pin_c))
     pin_d = await cg.gpio_pin_expression(config[CONF_PIN_D])
     cg.add(var.set_pin_d(pin_d))
+    pin_e = await cg.gpio_pin_expression(config[CONF_ENABLE_PIN])
+    cg.add(var.set_pin_e(pin_e))
 
     cg.add(var.set_sleep_when_done(config[CONF_SLEEP_WHEN_DONE]))
     cg.add(var.set_step_mode(config[CONF_STEP_MODE]))
