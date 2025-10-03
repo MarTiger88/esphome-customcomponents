@@ -32,7 +32,7 @@ void TB6612::loop() {
       this->pin_b_->digital_write(false);
       this->pin_c_->digital_write(false);
       this->pin_d_->digital_write(false);
-      this->pin_e_->digital_write(true); // Should make sure standby is ON
+      this->pin_e_->digital_write(false); // Should make sure standby is ON
       // do not write pos
       return;
     }
@@ -69,6 +69,7 @@ void TB6612::dump_config() {
   ESP_LOGCONFIG(TAG, "  Step Mode: %s", step_mode_s);
 }
 void TB6612::write_step_(int32_t step) {
+  this->pin_e_->digital_write(true); // Enable the motor driver by setting standby high
   int32_t n = this->step_mode_ == TB6612_STEP_MODE_HALF_STEP ? 8 : 4;
   auto i = static_cast<uint32_t>((step % n + n) % n);
   uint8_t res = 0;
