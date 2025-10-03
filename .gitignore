@@ -1,2 +1,5 @@
 esphome/components/tb6612/__pycache__/__init__.cpython-312.pyc
 esphome/components/tb6612/__pycache__/stepper.cpython-312.pyc
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
